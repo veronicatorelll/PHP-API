@@ -1,39 +1,20 @@
 <?php
 
+if($_SERVER["REQUEST_METHOD"] != "GET"){
+    die("Invalid request");
+}
 
-// ---- Get this from database ----
-$cars = [
-    [
-        "id" => 1,
-        "make" => "BMWk",
-        "model" => "750"
-    ],
-    [
-        "id" => 2,
-        "make" => "Volvo",
-        "model" => "V60"
-    ],
-    [
-        "id" => 3,
-        "make" => "Tesla",
-        "model" => "G40"
-    ],
-    [
-        "id" => 4,
-        "make" => "Saab",
-        "model" => "C80"
-    ],
-];
+require_once "./db.php";
 
-$cars = json_encode($cars);
+$query = "SELECT * FROM cars";
 
-// --- Set headers ---
-header('Content-Type: application/json; charset=utf-8;');
+$result = mysqli_query($conn, $query) or die("Selected query failed");
 
+$books = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// --- Set body ----
+header("Content-Type: application/json; charset=utf-8");
+
 echo json_encode($cars);
-
 
 
 ?>
